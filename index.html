@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QCAA Senior Subjects — Dot Point Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/themes.css">
+</head>
+<body data-subject="neutral">
+
+<div id="landingView">
+  <div class="landing-wrap">
+    <div class="landing-hero">
+      <div class="kicker">QCAA · General Senior Syllabuses</div>
+      <h1>Syllabus Dot Point Tracker</h1>
+      <p>Pick a subject to work through its Unit 3 &amp; 4 dot points — self‑rate your recall, write your own answer before checking a model answer, and track your progress. Everything saves automatically on this device.</p>
+    </div>
+    <div class="subject-grid" id="subjectGrid"></div>
+    <div class="subject-grid" style="margin-top:16px;">
+      <div class="overall-card" id="overallEntry">
+        <div class="oc-icon">📊</div>
+        <div class="oc-text">
+          <h3>Overall progress</h3>
+          <p>See combined stats across every subject you're tracking, in one place.</p>
+        </div>
+        <div class="oc-arrow">→</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="trackerView" style="display:none;">
+<div id="app">
+  <header class="topbar">
+    <button class="back-btn" id="backBtnTracker">&larr; All subjects</button>
+    <button class="menu-btn" id="menuBtn" aria-label="Toggle filters">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="brand">
+      <span class="tag">QCAA · Physics</span>
+      <div>
+        <h1>Syllabus Dot Point Tracker</h1>
+        <div class="sub">Units 3 &amp; 4 — General Senior Syllabus</div>
+      </div>
+    </div>
+    <nav class="tabs">
+      <button data-tab="points" class="active">Dot Points</button>
+      <button data-tab="dash">Dashboard</button>
+    </nav>
+    <div class="dial-mini">
+      <div class="ring">
+        <svg viewBox="0 0 36 36" width="34" height="34">
+          <circle cx="18" cy="18" r="15.5" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="3"></circle>
+          <circle id="miniRing" cx="18" cy="18" r="15.5" fill="none" stroke="#DE9F35" stroke-width="3" stroke-linecap="round" stroke-dasharray="97.4" stroke-dashoffset="97.4" transform="rotate(-90 18 18)"></circle>
+        </svg>
+        <b id="miniPct">0%</b>
+      </div>
+      <div>reviewed<br>progress</div>
+    </div>
+    <div id="saveIndicator" class="save-indicator"></div>
+  </header>
+
+  <div class="scrim" id="scrim"></div>
+
+  <main>
+    <aside class="filters" id="filters">
+      <h2>Search</h2>
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="searchInput" type="text" placeholder="Search code or keyword…">
+      </div>
+
+      <h2>Self‑rating</h2>
+      <div class="chiprow" id="statusChips">
+        <button class="chip" data-status="P"><span class="dot" style="background:#4C8F6B"></span>Perfectly</button>
+        <button class="chip" data-status="K"><span class="dot" style="background:#DE9F35"></span>Kinda</button>
+        <button class="chip" data-status="D"><span class="dot" style="background:#C24A3E"></span>Don't know</button>
+        <button class="chip" data-status="none"><span class="dot" style="background:#5B6B7A"></span>Unreviewed</button>
+      </div>
+
+      <h2>Type</h2>
+      <div class="chiprow" id="typeChips">
+        <button class="chip" data-type="explain">Needs explanation</button>
+        <button class="chip" data-type="calc">Calc / graph / sketch</button>
+      </div>
+
+      <h2>Units &amp; topics</h2>
+      <div class="unit-tree" id="unitTree"></div>
+
+      <button class="export-link" id="exportBtn">&#8595; Export progress (.json)</button>
+      <button class="export-link" id="importBtn">&#8593; Import progress (.json)</button>
+      <input type="file" id="importFile" accept="application/json" style="display:none;">
+      <button class="reset-link" id="resetBtn">Reset all progress</button>
+      <div id="importStatus" style="font-family:var(--mono); font-size:10.5px; color:var(--muted); margin-top:8px; line-height:1.4;"></div>
+    </aside>
+
+    <section class="content" id="pointsView"></section>
+    <section class="dash" id="dashView" style="display:none;"></section>
+  </main>
+</div>
+</div>
+
+<div id="overallView" style="display:none;">
+  <header class="topbar">
+    <button class="back-btn" id="backBtnOverall">&larr; All subjects</button>
+    <div class="brand">
+      <span class="tag">QCAA · Overall</span>
+      <div>
+        <h1>Overall Progress</h1>
+        <div class="sub">Across every subject you're tracking</div>
+      </div>
+    </div>
+  </header>
+  <div class="ov-wrap" id="overallContent"></div>
+</div>
+
+<!-- Subject Data -->
+<script src="data/physics.js"></script>
+<script src="data/specialist-maths.js"></script>
+<script src="data/chemistry.js"></script>
+<script src="data/economics.js"></script>
+<script src="data/methods.js"></script>
+<script src="data/biology.js"></script>
+
+<!-- App Scripts -->
+<script src="js/subjects.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
